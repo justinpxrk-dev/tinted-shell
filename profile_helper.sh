@@ -65,7 +65,7 @@ set_theme()
 {
   theme_name="$1"
   force_load="$2"
-  script_path="$BASE16_SHELL_PATH/scripts/base16-$theme_name.sh"
+  script_path="$BASE16_SHELL_PATH/scripts/base24-$theme_name.sh"
   current_theme_name=""
 
   # Only read from file if it exists
@@ -133,12 +133,12 @@ alias reset="command reset \
   && [ -f \"$BASE16_SHELL_COLORSCHEME_PATH\" ] \
   && . \"$BASE16_SHELL_COLORSCHEME_PATH\""
 
-# Set base16_* aliases
-for script_path in "$BASE16_SHELL_PATH"/scripts/base16*.sh; do
+# Set base24_* aliases
+for script_path in "$BASE16_SHELL_PATH"/scripts/base24*.sh; do
   script_name=${script_path##*/}
   script_name=${script_name%.sh}
-  theme_name=${script_name#base16-} # eg: solarized-light
-  function_name="base16_${theme_name}"
+  theme_name=${script_name#base24-}
+  function_name="base24_${theme_name}"
 
   alias "$function_name"="set_theme \"${theme_name}\""
 done;
@@ -146,9 +146,9 @@ done;
 # unset loop variables to not leak to user's shell
 unset script_path script_name theme_name function_name
 
-# If $BASE16_THEME is set, this has already been loaded. This guards
+# If $BASE24_THEME is set, this has already been loaded. This guards
 # against a bug where this script is sourced two or more times.
-if [ -n "$BASE16_THEME" ]; then
+if [ -n "$BASE24_THEME" ]; then
   return 0
 fi
 
@@ -160,7 +160,7 @@ if [ -n "$current_theme_name" ]; then
 # Else extract from the colorscheme file
 elif [ -e "$BASE16_SHELL_COLORSCHEME_PATH" ]; then
   # Get the active theme name from the export variable in the script
-  current_theme_name=$(grep 'export BASE16_THEME' "$BASE16_SHELL_COLORSCHEME_PATH")
+  current_theme_name=$(grep 'export BASE24_THEME' "$BASE16_SHELL_COLORSCHEME_PATH")
   current_theme_name=${current_theme_name#*=}
   set_theme "$current_theme_name" "true"
 # If a colorscheme file doesn't exist and BASE16_THEME_DEFAULT is set,
